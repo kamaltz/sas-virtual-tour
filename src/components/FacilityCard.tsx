@@ -1,16 +1,20 @@
 import {
-  Home, Route, ShieldCheck, Moon, Trees, Building2,
+  Home, Route, ShieldCheck, Trees, Building2, DoorOpen, Waves, Zap, Droplets,
   type LucideIcon,
 } from 'lucide-react';
+import BrandImage from '@/components/BrandImage';
 import type { Facility } from '@/data/facilities';
 
 const iconMap: Record<string, LucideIcon> = {
   Home,
   Route,
   ShieldCheck,
-  Moon,
   Trees,
   Building2,
+  DoorOpen,
+  Waves,
+  Zap,
+  Droplets,
 };
 
 interface FacilityCardProps {
@@ -25,11 +29,11 @@ export default function FacilityCard({ facility, variant = 'compact' }: Facility
     return (
       <article className="group flex flex-col overflow-hidden rounded-lg border border-border bg-card transition-shadow hover:shadow-md">
         <div className="relative aspect-[16/10] overflow-hidden">
-          <img
+          <BrandImage
             src={facility.image}
             alt={facility.imageAlt}
-            loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            placeholder={facility.imagePlaceholder}
+            label="Foto kawasan belum tersedia"
           />
         </div>
         <div className="flex flex-1 flex-col p-7">

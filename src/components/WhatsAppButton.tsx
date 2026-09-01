@@ -11,7 +11,7 @@ export default function WhatsAppButton({
   variant = 'inline',
 }: WhatsAppButtonProps) {
   const message = encodeURIComponent(
-    `Halo, saya tertarik untuk mendapatkan informasi lebih lanjut tentang ${siteConfig.name}.`,
+    'Halo, saya ingin mendapatkan informasi lebih lanjut mengenai SAS Residence Sindangpalay.',
   );
   const href = `https://wa.me/${siteConfig.whatsapp}?text=${message}`;
 

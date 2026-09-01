@@ -1,12 +1,45 @@
-import { MapPin, Navigation, Car, Clock } from 'lucide-react';
+import { MapPin, Building, GraduationCap, Stethoscope, Landmark, Store, Bus } from 'lucide-react';
 import PageHeader from '@/components/PageHeader';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import { siteConfig } from '@/data/site';
 
-const accessPoints = [
-  { icon: Car, label: 'Akses Jalan Utama', value: '±5 menit ke Jalan Raya Karangpawitan' },
-  { icon: Navigation, label: 'Pusat Kota Garut', value: '±15 menit ke pusat kota Garut' },
-  { icon: Clock, label: 'Stasiun Karangpawitan', value: '±10 menit ke stasiun terdekat' },
+/**
+ * Nearby-services list.
+ *
+ * The starter's travel-time claims ("±5 menit ke Jalan Raya Karangpawitan",
+ * "±15 menit ke pusat kota Garut", "±10 menit ke stasiun terdekat") and the
+ * accompanying station reference were not backed by any verifiable source, so
+ * they have been removed pending validation.
+ *
+ * Descriptions below are qualitative. Add a measured distance/time only after it
+ * has been verified (map measurement or official brochure).
+ */
+const nearbyPlaces = [
+  {
+    icon: Stethoscope,
+    label: 'Fasilitas Kesehatan',
+    value: 'Akses menuju Puskesmas Karangpawitan dan layanan kesehatan di sekitar kecamatan.',
+  },
+  {
+    icon: GraduationCap,
+    label: 'Fasilitas Pendidikan',
+    value: 'Terdapat akses menuju sekolah di sekitar kawasan Karangpawitan.',
+  },
+  {
+    icon: Store,
+    label: 'Perdagangan & Pasar',
+    value: 'Akses menuju pasar dan area perdagangan di sekitar Karangpawitan.',
+  },
+  {
+    icon: Landmark,
+    label: 'Tempat Ibadah',
+    value: 'Tersedia tempat ibadah di sekitar kawasan.',
+  },
+  {
+    icon: Bus,
+    label: 'Transportasi Umum',
+    value: 'Kawasan terhubung dengan jalur transportasi umum di sekitar Karangpawitan.',
+  },
 ];
 
 export default function Location() {
@@ -14,8 +47,8 @@ export default function Location() {
     <>
       <PageHeader
         eyebrow="Lokasi"
-        title="Lokasi Strategis"
-        description="Perumahan SAS berlokasi di Karangpawitan, Garut — area yang berkembang dengan akses mudah ke berbagai fasilitas umum."
+        title="Lokasi Kawasan"
+        description={`${siteConfig.projectName} berada di ${siteConfig.location}, dengan akses menuju berbagai fasilitas umum di sekitar Karangpawitan.`}
       />
 
       <section className="section-padding">
@@ -35,14 +68,14 @@ export default function Location() {
                 <div className="flex h-full flex-col items-center justify-center p-8 text-center">
                   <MapPin className="h-12 w-12 text-accent" aria-hidden="true" />
                   <p className="mt-4 font-display text-lg font-semibold text-foreground">
-                    {siteConfig.name}
+                    {siteConfig.projectName}
                   </p>
                   <p className="mt-1 text-sm text-muted-foreground">
                     {siteConfig.location}
                   </p>
                   <p className="mt-4 max-w-xs text-xs text-muted-foreground/70">
-                    Google Maps akan ditampilkan di area ini setelah URL embed
-                    dikonfigurasi di file konfigurasi situs.
+                    Peta Google Maps akan ditampilkan di area ini setelah URL embed
+                    yang terverifikasi dikonfigurasi pada file konfigurasi situs.
                   </p>
                 </div>
               )}
@@ -50,20 +83,38 @@ export default function Location() {
 
             {/* Info */}
             <div>
-              <h2 className="heading-3">Alamat</h2>
+              <h2 className="heading-3">Lokasi Proyek</h2>
               <div className="mt-4 flex items-start gap-3">
                 <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden="true" />
-                <p className="text-muted-foreground">{siteConfig.address}</p>
+                <div>
+                  <p className="font-medium text-foreground">{siteConfig.projectName}</p>
+                  <p className="text-muted-foreground">{siteConfig.location}</p>
+                </div>
               </div>
+              <p className="mt-2 text-xs text-muted-foreground/70">
+                ID proyek (SiKumbang): {siteConfig.projectId}
+              </p>
+
+              <h2 className="heading-3 mt-10">Alamat Pemasaran</h2>
+              <div className="mt-4 flex items-start gap-3">
+                <Building className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden="true" />
+                <p className="text-muted-foreground">{siteConfig.marketingAddress}</p>
+              </div>
+              <p className="mt-2 text-xs text-muted-foreground/70">
+                Alamat pemasaran/kontak ini belum tentu sama dengan titik lokasi fisik
+                kawasan. Konfirmasikan titik lokasi proyek kepada pihak pemasaran SAS
+                Residence.
+              </p>
 
               <h2 className="heading-3 mt-10">Akses Sekitar</h2>
               <p className="mt-4 text-muted-foreground">
-                Lokasi {siteConfig.name} memberikan kemudahan akses ke berbagai
-                fasilitas umum dan transportasi di sekitar Karangpawitan, Garut.
+                Informasi berikut bersifat kualitatif. Jarak dan waktu tempuh belum
+                diukur / diverifikasi — konfirmasikan kepada pihak pemasaran SAS
+                Residence untuk data yang lebih pasti.
               </p>
 
               <ul className="mt-6 space-y-4">
-                {accessPoints.map((point) => (
+                {nearbyPlaces.map((point) => (
                   <li
                     key={point.label}
                     className="flex items-start gap-4 rounded-lg border border-border bg-card p-5"

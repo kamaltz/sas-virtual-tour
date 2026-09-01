@@ -1,31 +1,39 @@
-import { Eye, Volume2, Info, Home } from 'lucide-react';
+import { Eye, Volume2, Building2, GraduationCap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import PageHeader from '@/components/PageHeader';
 import { siteConfig } from '@/data/site';
 
+/**
+ * The About page deliberately separates THREE concepts:
+ *   1. SAS Residence Sindangpalay  - the housing project (research object)
+ *   2. PT SAS Amanah Sentosa       - the developer
+ *   3. This Virtual Tour website   - a university research prototype / supporting
+ *                                    interactive information medium (NOT the
+ *                                    official SAS Residence corporate website)
+ */
 const sections = [
   {
-    icon: Home,
-    title: `Tentang ${siteConfig.name}`,
-    description: `${siteConfig.name} adalah perumahan yang berlokasi di Karangpawitan, Garut, yang menawarkan hunian modern dengan lingkungan yang nyaman dan strategis.`,
+    icon: Building2,
+    title: `Tentang ${siteConfig.projectName}`,
+    description: `${siteConfig.projectName} merupakan kawasan perumahan subsidi yang berlokasi di ${siteConfig.location} dan dikembangkan oleh ${siteConfig.developer}. Pengembang tergabung dalam ${siteConfig.association}.`,
   },
   {
-    icon: Info,
-    title: 'Tujuan Website',
+    icon: GraduationCap,
+    title: 'Tentang Website Ini',
     description:
-      'Website ini dikembangkan sebagai portal informasi interaktif yang mempermudah calon penghuni untuk mengenal perumahan sebelum mengunjungi lokasi secara langsung.',
+      'Website ini adalah media informasi interaktif pendukung yang dikembangkan sebagai bagian dari penelitian di Institut Teknologi Garut. Website melengkapi kanal promosi resmi pengembang dan bukan situs korporat resmi SAS Residence.',
   },
   {
     icon: Eye,
-    title: 'Teknologi Virtual Tour',
+    title: 'Virtual Tour 360°',
     description:
-      'Virtual Tour 360° memungkinkan pengunjung menjelajahi lingkungan, fasilitas, dan hunian secara digital dengan tampilan panorama yang interaktif menggunakan platform 3DVista.',
+      'Produk utama penelitian adalah Virtual Tour berbasis web dengan panorama 360° sebagai media informasi dan promosi digital yang interaktif untuk mengenal lingkungan, akses, fasilitas kawasan, rumah contoh, dan tipe hunian. Tur diintegrasikan melalui platform 3DVista.',
   },
   {
     icon: Volume2,
-    title: 'Text-to-Speech',
+    title: 'Integrasi Text-to-Speech',
     description:
-      'Integrasi Text-to-Speech di dalam Virtual Tour memberikan narasi audio otomatis yang menjelaskan informasi setiap titik, sehingga pengalaman eksplorasi menjadi lebih informatif dan inklusif.',
+      'Virtual Tour mengintegrasikan Text-to-Speech (speech synthesis / Web Speech API) untuk menyampaikan informasi hunian melalui audio, sehingga penyampaian informasi menjadi lebih komunikatif dan mudah dipahami.',
   },
 ];
 
@@ -34,8 +42,8 @@ export default function About() {
     <>
       <PageHeader
         eyebrow="Tentang"
-        title={`Tentang ${siteConfig.name}`}
-        description="Portal informasi interaktif yang menghadirkan pengalaman menjelajahi hunian secara digital."
+        title={`Tentang ${siteConfig.projectName}`}
+        description="Mengenal kawasan perumahan subsidi SAS Residence Sindangpalay, pengembangnya, dan Virtual Tour sebagai media informasi interaktif dalam penelitian."
       />
 
       <section className="section-padding">
@@ -66,9 +74,24 @@ export default function About() {
             <p className="mt-4 max-w-3xl leading-relaxed text-muted-foreground">
               {siteConfig.research.title}
             </p>
-            <p className="mt-3 text-sm text-muted-foreground/70">
-              {siteConfig.research.institution} &middot; {siteConfig.research.year}
-            </p>
+            <dl className="mt-5 grid gap-x-8 gap-y-2 text-sm sm:grid-cols-2">
+              <div className="flex gap-2">
+                <dt className="font-semibold text-foreground">Peneliti:</dt>
+                <dd className="text-muted-foreground">{siteConfig.research.researcher}</dd>
+              </div>
+              <div className="flex gap-2">
+                <dt className="font-semibold text-foreground">Institusi:</dt>
+                <dd className="text-muted-foreground">{siteConfig.research.institution}</dd>
+              </div>
+              <div className="flex gap-2">
+                <dt className="font-semibold text-foreground">Tahun:</dt>
+                <dd className="text-muted-foreground">{siteConfig.research.year}</dd>
+              </div>
+              <div className="flex gap-2">
+                <dt className="font-semibold text-foreground">Objek penelitian:</dt>
+                <dd className="text-muted-foreground">{siteConfig.projectName}</dd>
+              </div>
+            </dl>
           </div>
 
           <div className="mt-12 text-center">

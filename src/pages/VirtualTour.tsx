@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { Home, Eye } from 'lucide-react';
+import { Eye } from 'lucide-react';
+import Logo from '@/components/Logo';
 import TourEmbed from '@/components/TourEmbed';
 import { siteConfig } from '@/data/site';
 
@@ -14,12 +15,7 @@ export default function VirtualTour() {
             className="flex items-center gap-2"
             aria-label={`${siteConfig.name} — Kembali ke Beranda`}
           >
-            <span className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <Home className="h-4 w-4" aria-hidden="true" />
-            </span>
-            <span className="font-display text-sm font-bold tracking-tight text-foreground">
-              {siteConfig.name}
-            </span>
+            <Logo className="h-6" textClassName="text-foreground text-sm" />
           </Link>
           <Link
             to="/"

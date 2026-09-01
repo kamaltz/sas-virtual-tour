@@ -1,8 +1,23 @@
-# Virtual Tour Perumahan SAS | Karangpawitan Garut
+# SAS Residence Sindangpalay — Virtual Tour 360°
 
-Portal informasi interaktif dan Virtual Tour 360° untuk Perumahan SAS Karangpawitan Garut.
+Media informasi interaktif **pendukung** untuk **SAS Residence Sindangpalay**
+(Desa Sindangpalay, Kecamatan Karangpawitan, Kabupaten Garut), perumahan subsidi
+yang dikembangkan oleh **PT SAS Amanah Sentosa**.
 
-Proyek penelitian: _Pengembangan Virtual Tour sebagai Media Informasi Interaktif dengan Integrasi Text-to-Speech pada Perumahan SAS Karangpawitan Garut._
+Website ini **bukan** situs korporat resmi SAS Residence
+(situs resmi: <https://www.sasresidence.com>). Website ini dikembangkan sebagai
+bagian dari penelitian dan melengkapi kanal promosi resmi pengembang.
+
+Produk utama penelitian adalah **Virtual Tour berbasis web dengan panorama 360°**
+yang diintegrasikan dengan **Text-to-Speech** (speech synthesis / Web Speech API)
+untuk penyampaian informasi hunian melalui audio.
+
+## Penelitian
+
+- **Judul:** _Pengembangan Virtual Tour sebagai Media Informasi Interaktif dengan Integrasi Text-to-Speech pada Perumahan SAS Karangpawitan Garut_
+- **Peneliti:** Julia Herlina
+- **Institusi:** Institut Teknologi Garut
+- **Tahun:** 2026
 
 ## Teknologi
 
@@ -11,6 +26,7 @@ Proyek penelitian: _Pengembangan Virtual Tour sebagai Media Informasi Interaktif
 - React Router
 - Lucide React (ikon)
 - shadcn/ui (komponen UI)
+- Integrasi Virtual Tour: 3DVista (via iframe)
 
 ## Memulai
 
@@ -30,19 +46,14 @@ Buka `http://localhost:5173` di browser.
 
 ### 3. Konfigurasi URL 3DVista
 
-Salin file `.env.example` menjadi `.env`:
+Salin `.env.example` menjadi `.env`:
 
 ```bash
 cp .env.example .env
 ```
 
-Edit `.env` dan isi dengan URL Virtual Tour 3DVista Anda:
-
-```
-VITE_3DVISTA_TOUR_URL=https://url-3dvista-anda.com/virtual-tour/index.htm
-```
-
-Jika variabel ini kosong, halaman Virtual Tour akan menampilkan placeholder yang elegan.
+Isi `VITE_3DVISTA_TOUR_URL` dengan URL publikasi tur 3DVista Anda. Jika kosong,
+halaman Virtual Tour menampilkan placeholder yang rapi (tidak error).
 
 ### 4. Build untuk produksi
 
@@ -52,49 +63,55 @@ npm run build
 
 Hasil build berada di folder `dist/`.
 
-### 5. Deploy ke Vercel
+## Aset merek & foto
 
-1. Push repository ini ke GitHub/GitLab.
-2. Buka [vercel.com](https://vercel.com) dan import repository.
-3. Vercel akan otomatis mendeteksi konfigurasi Vite.
-4. Tambahkan environment variable `VITE_3DVISTA_TOUR_URL` di Vercel dashboard.
-5. Deploy.
+- **Logo resmi:** letakkan di `public/brand/sas-residence-logo.svg` (atau `.png`)
+  lalu sesuaikan `LOGO_SRC` di `src/components/Logo.tsx`. Jika tidak ada, aplikasi
+  memakai teks fallback **"SAS RESIDENCE"**.
+- **Favicon:** `public/favicon.svg` saat ini hanya placeholder "SAS". Ganti dengan
+  favicon resmi.
+- **Foto SAS Residence:** letakkan di `public/images/sas-residence/`
+  (lihat README di folder tersebut). Sebelum foto resmi tersedia, UI menampilkan
+  blok placeholder netral — jangan menggunakan foto stok seolah-olah rumah asli.
+
+## Data & konten
+
+- **Konfigurasi situs (brand, kontak, alamat, penelitian):** `src/data/site.ts`
+- **Tipe rumah:** `src/data/houses.ts` (hanya Tipe 34/60 — rumah subsidi)
+- **Informasi kawasan / fasilitas:** `src/data/facilities.ts`
+- **Warna aksen:** variabel `--accent` di `src/index.css` (placeholder, ganti dengan
+  warna merek resmi bila ada)
+- **Google Maps:** isi `mapEmbedUrl` di `src/data/site.ts` dengan URL embed terverifikasi
+
+### Data dinamis (perlu revalidasi berkala)
+
+Harga, angsuran, uang muka, promo, dan ketersediaan unit **berubah dari waktu ke
+waktu**. Angka harga/pembiayaan di repo ini berasal dari snapshot data penelitian
+(`researchSnapshotDate` di `src/data/site.ts`); tanggal tersebut **bukan** berarti
+seluruh data di situs sudah divalidasi. Informasi FLPP (bunga 5% fixed, tenor
+hingga 20 tahun, uang muka mulai 1%) adalah ketentuan program yang tunduk pada
+aturan program dan persetujuan bank. Jumlah unit (tersedia/terjual) **tidak
+ditampilkan publik**. Konfirmasikan semua angka ke pihak pemasaran SAS Residence /
+bank penyalur sebelum dipublikasikan sebagai fakta tetap.
 
 ## Struktur Proyek
 
 ```
 src/
   components/
-    layout/
-      Navbar.tsx
-      Footer.tsx
-      ScrollToTop.tsx
-    Hero.tsx
-    HouseCard.tsx
-    FacilityCard.tsx
-    TourPreview.tsx
-    TourEmbed.tsx
-    WhatsAppButton.tsx
-    PageHeader.tsx
+    layout/    Navbar.tsx  Footer.tsx  ScrollToTop.tsx
+    Logo.tsx           # logo merek + fallback teks
+    BrandImage.tsx     # gambar dengan placeholder netral
+    Hero.tsx  HouseCard.tsx  FacilityCard.tsx
+    TourPreview.tsx  TourEmbed.tsx  WhatsAppButton.tsx  PageHeader.tsx
   pages/
-    Home.tsx
-    VirtualTour.tsx
-    HouseTypes.tsx
-    Facilities.tsx
-    Location.tsx
-    About.tsx
+    Home.tsx  VirtualTour.tsx  HouseTypes.tsx  Facilities.tsx  Location.tsx  About.tsx
   data/
-    site.ts
-    houses.ts
-    facilities.ts
+    site.ts  houses.ts  facilities.ts
   lib/
     utils.ts
+public/
+  brand/                # aset merek resmi (lihat README)
+  images/sas-residence/ # foto resmi (lihat README)
+  favicon.svg           # placeholder
 ```
-
-## Kustomisasi
-
-- **Data situs** (nama, kontak, alamat): `src/data/site.ts`
-- **Data tipe rumah**: `src/data/houses.ts`
-- **Data fasilitas**: `src/data/facilities.ts`
-- **Warna aksen**: ubah variabel `--accent` di `src/index.css`
-- **Google Maps**: isi `mapEmbedUrl` di `src/data/site.ts`

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Menu, X, Home } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
+import Logo from '@/components/Logo';
 import { navLinks, siteConfig } from '@/data/site';
 import { cn } from '@/lib/utils';
 
@@ -38,14 +39,9 @@ export default function Navbar() {
           className="flex items-center gap-2.5"
           aria-label={`${siteConfig.name} — Beranda`}
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <Home className="h-5 w-5" aria-hidden="true" />
-          </span>
           <span className="flex flex-col leading-none">
-            <span className="font-display text-base font-bold tracking-tight text-foreground">
-              {siteConfig.name}
-            </span>
-            <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-muted-foreground">
+            <Logo className="h-7" textClassName="text-foreground text-base" />
+            <span className="mt-1 text-[11px] font-medium uppercase tracking-[0.15em] text-muted-foreground">
               {siteConfig.tagline}
             </span>
           </span>

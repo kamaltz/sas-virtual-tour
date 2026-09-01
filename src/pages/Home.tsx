@@ -39,10 +39,11 @@ export default function Home() {
             <p className="eyebrow">Pengenalan</p>
             <h2 className="heading-2 mt-4">Pengalaman Baru Menjelajahi Hunian</h2>
             <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
-              Website ini menyediakan informasi interaktif tentang {siteConfig.name} dan
-              memberi akses kepada pengunjung untuk menjelajahi hunian melalui Virtual Tour
-              360°. Pengalaman ini dirancang untuk memberi gambaran utuh sebelum Anda
-              mengunjungi lokasi secara langsung.
+              Website ini merupakan media informasi interaktif pendukung untuk{' '}
+              {siteConfig.projectName}, perumahan subsidi yang dikembangkan oleh{' '}
+              {siteConfig.developer}. Melalui Virtual Tour 360° dengan narasi
+              Text-to-Speech, pengunjung dapat mengenal lingkungan, akses, fasilitas
+              kawasan, dan tipe hunian sebelum mengunjungi lokasi secara langsung.
             </p>
           </div>
 
@@ -70,10 +71,11 @@ export default function Home() {
           <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
             <div className="max-w-2xl">
               <p className="eyebrow">Tipe Hunian</p>
-              <h2 className="heading-2 mt-4">Pilihan Tipe Hunian</h2>
+              <h2 className="heading-2 mt-4">Tipe Hunian Subsidi</h2>
               <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-                Beragam pilihan rumah dengan desain modern yang dirancang untuk
-                kenyamanan keluarga.
+                Kenali tipe hunian subsidi SAS Residence Sindangpalay beserta informasi
+                luas bangunan, luas tanah, spesifikasi dasar, dan pembiayaan yang
+                tersedia.
               </p>
             </div>
             <Link
@@ -105,10 +107,12 @@ export default function Home() {
         <div className="container-page">
           <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
             <div className="max-w-2xl">
-              <p className="eyebrow">Fasilitas</p>
-              <h2 className="heading-2 mt-4">Fasilitas Perumahan</h2>
+              <p className="eyebrow">Kawasan</p>
+              <h2 className="heading-2 mt-4">Informasi Kawasan</h2>
               <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-                Fasilitas lengkap yang mendukung kenyamanan dan keamanan penghuni.
+                Kategori informasi lingkungan dan infrastruktur kawasan yang disajikan
+                dalam Virtual Tour, seperti akses masuk, jalan lingkungan, drainase,
+                utilitas, ruang terbuka, dan rumah contoh.
               </p>
             </div>
             <Link
@@ -134,11 +138,11 @@ export default function Home() {
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
               <p className="eyebrow">Lokasi</p>
-              <h2 className="heading-2 mt-4">Lokasi Strategis</h2>
+              <h2 className="heading-2 mt-4">Lokasi Kawasan</h2>
               <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
-                {siteConfig.name} berlokasi di Karangpawitan, Garut — area yang
-                berkembang pesat dengan akses mudah ke pusat kota dan fasilitas umum
-                di sekitarnya.
+                {siteConfig.projectName} berada di {siteConfig.location}. Di sekitar
+                kawasan terdapat akses menuju fasilitas pendidikan, kesehatan, tempat
+                ibadah, serta layanan umum lainnya.
               </p>
 
               <div className="mt-8 space-y-4">

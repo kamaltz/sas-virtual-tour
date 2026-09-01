@@ -1,19 +1,25 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Eye } from 'lucide-react';
+import BrandImage from '@/components/BrandImage';
+import { siteConfig } from '@/data/site';
 
-const heroImage =
-  'https://images.pexels.com/photos/7031604/pexels-photo-7031604.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1280&fit=crop';
+/**
+ * Intended hero image location: /public/images/sas-residence/hero.jpg
+ * Until an official photo is supplied, a neutral placeholder block is shown
+ * (no stock photography presented as a real SAS Residence property).
+ */
+const heroImage = '/images/sas-residence/hero.jpg';
 
 export default function Hero() {
   return (
     <section className="relative flex min-h-[100svh] items-center overflow-hidden">
-      {/* Background image */}
+      {/* Background image / placeholder */}
       <div className="absolute inset-0">
-        <img
+        <BrandImage
           src={heroImage}
-          alt="Rumah modern dengan jendela panorama dan halaman hijau di Perumahan SAS"
-          className="h-full w-full object-cover"
-          fetchPriority="high"
+          alt="Lingkungan hunian SAS Residence Sindangpalay"
+          placeholder
+          label="Foto kawasan SAS Residence Sindangpalay belum tersedia"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/10" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
@@ -23,7 +29,7 @@ export default function Hero() {
       <div className="container-page relative z-10 py-28">
         <div className="max-w-2xl">
           <p className="animate-fade-up text-xs font-semibold uppercase tracking-[0.25em] text-white/80">
-            Perumahan SAS &middot; Karangpawitan, Garut
+            {siteConfig.projectName} &middot; {siteConfig.tagline}
           </p>
           <h1
             className="animate-fade-up mt-5 font-display text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl"
@@ -37,8 +43,9 @@ export default function Hero() {
             className="animate-fade-up mt-6 max-w-xl text-lg leading-relaxed text-white/85"
             style={{ animationDelay: '0.2s' }}
           >
-            Temukan lingkungan dan hunian Perumahan SAS melalui pengalaman Virtual
-            Tour 360° yang interaktif dan informatif.
+            Media informasi interaktif SAS Residence Sindangpalay — kenali lingkungan,
+            akses, fasilitas, dan tipe hunian subsidi melalui Virtual Tour 360° dengan
+            narasi Text-to-Speech.
           </p>
           <div
             className="animate-fade-up mt-9 flex flex-col gap-4 sm:flex-row"

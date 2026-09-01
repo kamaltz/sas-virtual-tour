@@ -29,7 +29,7 @@ export default function TourEmbed() {
         <div className="relative w-full flex-1 overflow-hidden">
           <iframe
             src={tourUrl}
-            title="Virtual Tour Perumahan SAS"
+            title="Virtual Tour 360° SAS Residence Sindangpalay"
             className="h-full w-full border-0"
             allow="fullscreen; accelerometer; gyroscope; magnetometer; vr; xr; xr-spatial-tracking; autoplay"
             allowFullScreen

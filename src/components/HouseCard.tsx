@@ -1,5 +1,6 @@
-import { BedDouble, Bath, Maximize, Ruler, ArrowRight } from 'lucide-react';
+import { BedDouble, Bath, Maximize, Ruler, Zap, ScrollText, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import BrandImage from '@/components/BrandImage';
 import type { HouseType } from '@/data/houses';
 
 interface HouseCardProps {
@@ -10,15 +11,15 @@ export default function HouseCard({ house }: HouseCardProps) {
   return (
     <article className="group flex flex-col overflow-hidden rounded-lg border border-border bg-card transition-shadow hover:shadow-md">
       <div className="relative aspect-[4/3] overflow-hidden">
-        <img
+        <BrandImage
           src={house.image}
           alt={house.imageAlt}
-          loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          placeholder={house.imagePlaceholder}
+          label="Foto tipe hunian belum tersedia"
         />
         <div className="absolute left-4 top-4">
           <span className="inline-flex items-center rounded-md bg-background/95 px-3 py-1.5 text-xs font-semibold text-foreground backdrop-blur-sm">
-            {house.type}
+            {house.category}
           </span>
         </div>
       </div>
@@ -49,6 +50,16 @@ export default function HouseCard({ house }: HouseCardProps) {
             <dt className="sr-only">Kamar Mandi</dt>
             <dd>{house.bathrooms} Kamar Mandi</dd>
           </div>
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <Zap className="h-4 w-4 text-accent" aria-hidden="true" />
+            <dt className="sr-only">Daya Listrik</dt>
+            <dd>{house.electricity}</dd>
+          </div>
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <ScrollText className="h-4 w-4 text-accent" aria-hidden="true" />
+            <dt className="sr-only">Sertifikat</dt>
+            <dd>{house.certificate}</dd>
+          </div>
         </dl>
 
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
@@ -56,17 +67,31 @@ export default function HouseCard({ house }: HouseCardProps) {
         </p>
 
         <div className="mt-5 flex flex-wrap gap-2">
-          {house.features.map((feat) => (
+          {house.layout.map((item) => (
             <span
-              key={feat}
+              key={item.label}
               className="inline-flex items-center rounded-md bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground"
             >
-              {feat}
+              {item.label}
+              {item.needsValidation && <span className="ml-1 text-accent" aria-hidden="true">*</span>}
             </span>
           ))}
         </div>
+        {house.layout.some((item) => item.needsValidation) && (
+          <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground/70">
+            <span className="text-accent">*</span> Elemen ini masih perlu dikonfirmasi
+            terhadap dokumen resmi.
+          </p>
+        )}
 
-        <div className="mt-6 pt-2">
+        <div className="mt-5 border-t border-border pt-4">
+          <p className="text-sm font-semibold text-foreground">{house.price.display}</p>
+          <p className="mt-1 text-xs leading-relaxed text-muted-foreground/80">
+            {house.price.note}
+          </p>
+        </div>
+
+        <div className="mt-5 pt-1">
           <Link
             to="/virtual-tour"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-accent/80"
