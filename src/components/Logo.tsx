@@ -2,69 +2,77 @@ import { useState } from 'react';
 import { siteConfig } from '@/data/site';
 
 /**
- * Brand logo for SAS Residence.
+ * Official SAS Residence brand logo.
  *
- * IMPORTANT: The previous starter used a generic Lucide `Home` icon as if it were
- * the SAS Residence logo. That is NOT an official brand asset and must not be used.
+ * Asset: public/brand/sas-residence-logo.png  (1407x427, transparent, dark ink)
+ *   - The official horizontal lockup: house mark + "SAS RESIDENCE" + "SINDANGPALAY".
+ *   - Because the wordmark AND "Sindangpalay" are already in the image, callers
+ *     must NOT place a redundant tagline next to it (see Navbar / Footer).
  *
- * To use the real logo, drop the OFFICIAL file (supplied by the developer,
- * PT SAS Amanah Sentosa) at one of these paths — no other action needed:
- *   public/brand/sas-residence-logo.svg   (preferred, crisp at any size)
- *   public/brand/sas-residence-logo.png   (fallback raster)
+ * A vector master also exists at public/brand/sas-residence-logo.svg, but it is a
+ * CorelDRAW export that relies on deprecated SVG `<font>` glyphs which no browser
+ * renders — its text would fall back to a system font and look wrong. So the PNG
+ * is authoritative on the web. To move to SVG later, re-export with text
+ * converted to outlines/curves and point LOGO_SRC at it.
  *
- * This component tries the SVG first, then the PNG, then a clean text fallback
- * ("SAS RESIDENCE"). The app never breaks if the file is missing.
- *
- * Do not invent, redraw, or AI-generate the logo.
- *
- * NOTE: the official horizontal lockup already includes the word "SINDANGPALAY".
- * Once the real logo is in place, consider hiding the separate tagline line in
- * Navbar.tsx to avoid showing "SINDANGPALAY" twice.
+ * The dark-ink PNG is recoloured to white via a CSS filter when `tone="light"`
+ * (used on the dark footer). If the file ever fails to load, a clean typographic
+ * lockup ("SAS RESIDENCE" + location line) is shown instead. Do not AI-generate
+ * or redraw the logo.
  */
 
-// Candidate sources, tried in order before falling back to the text wordmark.
-const LOGO_SOURCES = [
-  '/brand/sas-residence-logo.svg',
-  '/brand/sas-residence-logo.png',
-] as const;
+const LOGO_SRC = '/brand/sas-residence-logo.png';
 
 interface LogoProps {
-  /** Height (and any extra) classes for the image / text, e.g. 'h-8'. */
+  /** Height (+ any extra) utility classes for the mark, e.g. 'h-9 md:h-10'. */
   className?: string;
-  /** Force the text-only fallback (used where an image mark is not wanted). */
-  textOnly?: boolean;
-  /** Tailwind text color / size classes for the fallback wordmark. */
-  textClassName?: string;
+  /**
+   * 'dark'  -> logo as-is, dark fallback text (for light backgrounds)
+   * 'light' -> logo recoloured white, light fallback text (for dark backgrounds)
+   */
+  tone?: 'dark' | 'light';
+  /** Text-fallback only: show the location line under the wordmark. Default true. */
+  withTagline?: boolean;
 }
 
 export default function Logo({
-  className = 'h-8',
-  textOnly = false,
-  textClassName = 'text-foreground',
+  className = 'h-9',
+  tone = 'dark',
+  withTagline = true,
 }: LogoProps) {
-  const [srcIndex, setSrcIndex] = useState(0);
+  const [failed, setFailed] = useState(false);
 
-  const exhausted = srcIndex >= LOGO_SOURCES.length;
-  const showText = textOnly || exhausted;
-
-  if (showText) {
+  if (failed) {
     return (
-      <span
-        className={`font-display font-bold uppercase tracking-tight ${textClassName}`}
-      >
-        SAS RESIDENCE
+      <span className="flex flex-col leading-none">
+        <span
+          className={`font-display text-base font-bold uppercase tracking-[0.14em] sm:text-lg ${
+            tone === 'light' ? 'text-background' : 'text-foreground'
+          }`}
+        >
+          SAS Residence
+        </span>
+        {withTagline && (
+          <span
+            className={`mt-1 text-[10px] font-medium uppercase tracking-[0.16em] ${
+              tone === 'light' ? 'text-background/60' : 'text-muted-foreground'
+            }`}
+          >
+            {siteConfig.tagline}
+          </span>
+        )}
       </span>
     );
   }
 
   return (
     <img
-      src={LOGO_SOURCES[srcIndex]}
-      alt={`Logo ${siteConfig.brandName}`}
-      className={`w-auto max-w-[200px] object-contain ${className}`}
-      // Advance to the next candidate source; when the list is exhausted the
-      // component re-renders into the text fallback above.
-      onError={() => setSrcIndex((i) => i + 1)}
+      src={LOGO_SRC}
+      alt={`Logo ${siteConfig.projectName}`}
+      className={`w-auto max-w-[220px] object-contain ${className} ${
+        tone === 'light' ? 'brightness-0 invert' : ''
+      }`}
+      onError={() => setFailed(true)}
     />
   );
 }

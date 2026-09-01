@@ -80,14 +80,20 @@ export default function Home() {
             </div>
             <Link
               to="/tipe-rumah"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-accent/80"
+              className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-accent/80"
             >
-              Lihat Semua
+              Lihat Detail Tipe
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
 
-          <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div
+            className={
+              houses.length === 1
+                ? 'mt-12 max-w-md'
+                : 'mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3'
+            }
+          >
             {houses.map((house) => (
               <HouseCard key={house.id} house={house} />
             ))}

@@ -17,7 +17,13 @@ export default function HouseTypes() {
 
       <section className="section-padding">
         <div className="container-page">
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div
+            className={
+              houses.length === 1
+                ? 'mx-auto max-w-md'
+                : 'grid gap-8 sm:grid-cols-2 lg:grid-cols-3'
+            }
+          >
             {houses.map((house) => (
               <HouseCard key={house.id} house={house} />
             ))}
@@ -25,7 +31,7 @@ export default function HouseTypes() {
 
           {/* Detailed specs & financing per type */}
           {houses.map((house) => (
-            <div key={house.id} className="mt-14 grid gap-8 lg:grid-cols-2">
+            <div key={house.id} className="mt-14 grid gap-8 md:grid-cols-2">
               <div className="rounded-lg border border-border bg-card p-7">
                 <h2 className="font-display text-xl font-semibold tracking-tight text-foreground">
                   Spesifikasi {house.name}

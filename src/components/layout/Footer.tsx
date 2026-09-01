@@ -11,12 +11,11 @@ export default function Footer() {
       <div className="container-page grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-4 lg:py-20">
         {/* Brand */}
         <div className="lg:col-span-1">
-          <Logo className="h-7" textClassName="text-background text-lg" />
-          <p className="mt-4 max-w-xs text-sm leading-relaxed text-background/70">
+          <Logo className="h-10" tone="light" />
+          <p className="mt-5 max-w-xs text-sm leading-relaxed text-background/70">
             {siteConfig.description}
           </p>
           <ul className="mt-5 space-y-1.5 text-xs text-background/60">
-            <li>{siteConfig.projectName}</li>
             <li>Pengembang: {siteConfig.developer}</li>
             <li>Anggota {siteConfig.association} · {siteConfig.status}</li>
           </ul>
@@ -71,12 +70,12 @@ export default function Footer() {
           <ul className="mt-4 space-y-3 text-sm text-background/70">
             <li className="flex gap-3">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-background/50" aria-hidden="true" />
-              <span>
-                {siteConfig.marketingAddress}
-                <span className="mt-1 block text-xs text-background/40">
+              <div>
+                <p>{siteConfig.marketingAddress}</p>
+                <p className="mt-1 text-xs text-background/40">
                   Alamat pemasaran — lokasi proyek: {siteConfig.location}
-                </span>
-              </span>
+                </p>
+              </div>
             </li>
             <li className="flex gap-3">
               <Phone className="mt-0.5 h-4 w-4 shrink-0 text-background/50" aria-hidden="true" />

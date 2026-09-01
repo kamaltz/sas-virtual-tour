@@ -10,6 +10,10 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
+  const isHome = location.pathname === '/';
+  // Transparent, light-on-hero treatment only at the top of the home page.
+  const onHero = isHome && !scrolled && !open;
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
@@ -25,26 +29,19 @@ export default function Navbar() {
     <header
       className={cn(
         'fixed inset-x-0 top-0 z-50 transition-all duration-300',
-        scrolled
-          ? 'bg-background/95 shadow-sm backdrop-blur-md'
-          : 'bg-transparent',
+        onHero ? 'bg-transparent' : 'bg-background/95 shadow-sm backdrop-blur-md',
       )}
     >
       <nav
-        className="container-page flex h-16 items-center justify-between md:h-20"
+        className="container-page flex h-16 items-center justify-between gap-4 md:h-20"
         aria-label="Navigasi utama"
       >
         <Link
           to="/"
-          className="flex items-center gap-2.5"
+          className="flex shrink-0 items-center"
           aria-label={`${siteConfig.name} — Beranda`}
         >
-          <span className="flex flex-col leading-none">
-            <Logo className="h-7" textClassName="text-foreground text-base" />
-            <span className="mt-1 text-[11px] font-medium uppercase tracking-[0.15em] text-muted-foreground">
-              {siteConfig.tagline}
-            </span>
-          </span>
+          <Logo className="h-9 md:h-10" tone={onHero ? 'light' : 'dark'} />
         </Link>
 
         {/* Desktop nav */}
@@ -57,9 +54,13 @@ export default function Navbar() {
                 className={({ isActive }) =>
                   cn(
                     'rounded-md px-3.5 py-2 text-sm font-medium transition-colors',
-                    isActive
-                      ? 'text-accent'
-                      : 'text-foreground/80 hover:text-foreground',
+                    onHero
+                      ? isActive
+                        ? 'text-white'
+                        : 'text-white/80 hover:text-white'
+                      : isActive
+                        ? 'text-accent'
+                        : 'text-foreground/80 hover:text-foreground',
                   )
                 }
               >
@@ -82,7 +83,10 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-md text-foreground lg:hidden"
+          className={cn(
+            'inline-flex h-10 w-10 items-center justify-center rounded-md lg:hidden',
+            onHero ? 'text-white' : 'text-foreground',
+          )}
           aria-label={open ? 'Tutup menu' : 'Buka menu'}
           aria-expanded={open}
           aria-controls="mobile-menu"
