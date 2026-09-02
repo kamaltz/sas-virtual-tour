@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { MousePointer, Navigation, Volume2, X } from 'lucide-react';
+import { MousePointer, Navigation, Volume2 } from 'lucide-react';
+import TourNarration from '@/components/TourNarration';
 
 const tourUrl = import.meta.env.VITE_3DVISTA_TOUR_URL as string | undefined;
 
@@ -16,14 +16,13 @@ const infoItems = [
   },
   {
     icon: Volume2,
-    title: 'Kontrol Audio / TTS',
-    description: 'Gunakan kontrol audio di dalam tour untuk mendengarkan informasi.',
+    title: 'Narasi Text-to-Speech',
+    description: 'Gunakan panel narasi di bawah tur untuk mendengarkan informasi.',
   },
 ];
 
 export default function TourEmbed() {
   const hasUrl = Boolean(tourUrl && tourUrl.trim().length > 0);
-  const [showHint, setShowHint] = useState(true);
 
   if (hasUrl) {
     return (
@@ -39,33 +38,8 @@ export default function TourEmbed() {
           />
         </div>
 
-        {/* Slim, dismissible usage hint — single fixed-height row on every screen */}
-        {showHint && (
-          <div className="flex shrink-0 items-center gap-3 border-t border-border bg-background px-4 py-1.5 sm:px-6">
-            <div className="flex flex-1 items-center gap-4 overflow-x-auto whitespace-nowrap text-[11px] text-muted-foreground [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              <span className="inline-flex items-center gap-1.5">
-                <MousePointer className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
-                Geser untuk menjelajah
-              </span>
-              <span className="inline-flex items-center gap-1.5">
-                <Navigation className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
-                Ketuk hotspot untuk berpindah
-              </span>
-              <span className="inline-flex items-center gap-1.5">
-                <Volume2 className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
-                Kontrol audio untuk narasi TTS
-              </span>
-            </div>
-            <button
-              type="button"
-              onClick={() => setShowHint(false)}
-              className="shrink-0 rounded p-1 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-              aria-label="Sembunyikan petunjuk"
-            >
-              <X className="h-4 w-4" aria-hidden="true" />
-            </button>
-          </div>
-        )}
+        {/* Usage hints + Web Speech API narration (TTS owned by React, not 3DVista) */}
+        <TourNarration />
       </div>
     );
   }
@@ -83,10 +57,10 @@ export default function TourEmbed() {
             dikonfigurasi.
           </p>
           <p className="mt-2 text-sm text-muted-foreground">
-            Tambahkan{' '}
+            Set{' '}
             <code className="rounded bg-muted px-1.5 py-0.5 text-xs">VITE_3DVISTA_TOUR_URL</code>{' '}
-            di file <code className="rounded bg-muted px-1.5 py-0.5 text-xs">.env</code> untuk
-            menampilkan tour.
+            (mis. <code className="rounded bg-muted px-1.5 py-0.5 text-xs">/tour/index.htm</code>{' '}
+            untuk tur yang dibundel di <code className="rounded bg-muted px-1.5 py-0.5 text-xs">public/tour/</code>).
           </p>
         </div>
       </div>

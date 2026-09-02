@@ -52,8 +52,19 @@ Salin `.env.example` menjadi `.env`:
 cp .env.example .env
 ```
 
-Isi `VITE_3DVISTA_TOUR_URL` dengan URL publikasi tur 3DVista Anda. Jika kosong,
-halaman Virtual Tour menampilkan placeholder yang rapi (tidak error).
+Isi `VITE_3DVISTA_TOUR_URL`. Jika hasil "Publish for Web" 3DVista dibundel di
+`public/tour/` (entry `public/tour/index.htm`), gunakan:
+
+```
+VITE_3DVISTA_TOUR_URL=/tour/index.htm
+```
+
+Jika kosong, halaman Virtual Tour menampilkan placeholder yang rapi (tidak error).
+`TourEmbed.tsx` selalu membaca `import.meta.env.VITE_3DVISTA_TOUR_URL` — tidak ada
+URL yang di-hardcode.
+
+Lihat `public/tour/README-INTEGRATION.md` untuk detail integrasi, lisensi trial
+3DVista, dan alur penggantian export.
 
 ### 4. Build untuk produksi
 
@@ -129,6 +140,52 @@ aturan program dan persetujuan bank. Jumlah unit (tersedia/terjual) **tidak
 ditampilkan publik**. Konfirmasikan semua angka ke pihak pemasaran SAS Residence /
 bank penyalur sebelum dipublikasikan sebagai fakta tetap.
 
+## Virtual Tour 360°
+
+- Halaman `/virtual-tour` menampilkan tur 3DVista di dalam `<iframe>` yang mengisi
+  seluruh layar di bawah header ringkas (tanpa navbar/footer situs).
+- **Text-to-Speech dimiliki oleh React**, bukan proyek 3DVista: `TourNarration.tsx`
+  + `src/data/tourNarration.ts` memakai Web Speech API (`window.speechSynthesis`),
+  bahasa `id-ID`, dengan kontrol Mulai / Jeda / Lanjut / Berhenti. Tidak ada
+  autoplay. Turun gracefully bila browser tidak mendukung.
+- Export 3DVista berada di `public/tour/` (self-contained; tidak di-bundle Vite).
+  Detail: [`public/tour/README-INTEGRATION.md`](public/tour/README-INTEGRATION.md).
+
+### Watermark trial 3DVista
+
+Trial watermark preserved. No licensing or watermark suppression code was
+modified. Watermark hilang secara normal saat export **berlisensi** menggantikan
+isi `public/tour/` (alur penggantian ada di README-INTEGRATION).
+
+### Pekerjaan tur yang harus dilakukan di 3DVista Editor (bukan di kode)
+
+Export yang dibundel saat ini masih memakai **template demo "Real Estate" 3DVista**
+(10 panorama SAS asli sudah dimasukkan, tetapi skin/menu/hotspot/teks masih konten
+demo). Hal berikut **tidak dapat** dikerjakan dengan mengedit folder web hasil
+export dan **harus** dilakukan di proyek `.3dvista` lalu di-export ulang:
+
+1. Ganti menu/sidebar demo (`RECEPTION`, `ROOMS`, `AMENITIES`, `Bar`, `Lobby`,
+   `Chill Out`, `SWIMMING POOL`, `SPORTS AREA`, ~80 tombol `Lorem Ipsum`) dengan
+   IA tesis: Beranda Tour · Petunjuk · Siteplan · Tipe Rumah · Fasilitas/Kawasan ·
+   Lokasi · Informasi & Kontak · Audio/TTS · Fullscreen (opsional: Tutup sidebar).
+2. Hapus widget Google Maps New York (`400 5th Ave` — 2 `WebFrame`). Ganti dengan
+   peta lokasi fisik terverifikasi, atau hapus widgetnya (jangan pakai titik palsu).
+3. Hapus kartu agen fiktif: `JOHN DOE`, `jhondoe@realestate.com`,
+   `www.loremipsum.com`, `+11 111 111 111`, `$150,000`, `Company Name`,
+   `info@loremipsum.com`.
+4. Ganti label 10 panorama (`pano360_165208_00_6080x3040`, …) menjadi nama lokasi
+   yang jelas (mis. "Gerbang / Akses Masuk", "Jalan Utama Kawasan", "Rumah Contoh —
+   Tampak Depan", "Ruang Keluarga", "Kamar Tidur", "Dapur / Area Belakang").
+5. Susun ulang hotspot: navigasi maju/mundur yang jelas, tanpa dead-end, ikon
+   hotspot yang konsisten, tooltip deskriptif, dan hotspot informasi di titik utama.
+6. Isi Tour **Title** = "SAS Residence Sindangpalay" dan **Description**.
+7. Perilaku sidebar mobile: collapsed secara default di layar sempit, tombol menu
+   jelas (≥ ~40 px), menu bisa di-scroll, tanpa overflow horizontal, menutup
+   setelah navigasi (Skin Editor → pengaturan responsif skin).
+8. (Opsional) Jika ingin narasi TTS di dalam tur, tambahkan trigger pada hotspot
+   informasi di editor **dan nonaktifkan** panel `TourNarration` React agar tidak
+   ada dua sistem TTS.
+
 ## Struktur Proyek
 
 ```
@@ -138,15 +195,16 @@ src/
     Logo.tsx           # logo merek + fallback teks
     BrandImage.tsx     # gambar dengan placeholder netral
     Hero.tsx  HouseCard.tsx  FacilityCard.tsx
-    TourPreview.tsx  TourEmbed.tsx  WhatsAppButton.tsx  PageHeader.tsx
+    TourPreview.tsx  TourEmbed.tsx  TourNarration.tsx  WhatsAppButton.tsx  PageHeader.tsx
   pages/
     Home.tsx  VirtualTour.tsx  HouseTypes.tsx  Facilities.tsx  Location.tsx  About.tsx
   data/
-    site.ts  houses.ts  facilities.ts
+    site.ts  houses.ts  facilities.ts  tourNarration.ts
   lib/
     utils.ts
 public/
   brand/                # aset merek resmi (lihat README)
   images/sas-residence/ # foto resmi (lihat README)
+  tour/                 # export 3DVista (self-contained, jangan diedit manual)
   favicon.svg           # placeholder
 ```

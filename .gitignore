@@ -30,3 +30,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Windows / Google Drive folder-metadata junk (was accidentally committed under public/tour/)
+desktop.ini
+Thumbs.db
